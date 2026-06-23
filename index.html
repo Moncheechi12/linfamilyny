@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New York Travel Planner - Weather Dashboard</title>
+    <!-- Tailwind CSS v4 -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'PingFang TC', 'Heiti TC', 'Noto Sans TC', sans-serif;
+            background-image: linear-gradient(rgba(247, 248, 250, 0.45), rgba(247, 248, 250, 0.45)), url('watermarked_img_471120332116766583.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: #333333;
+        }
+        .korean-card {
+            border-radius: 24px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+        .nav-blur {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background-color: rgba(255, 255, 255, 0.85);
+        }
+        .modal-animate {
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+    </style>
+</head>
+<body class="pb-28 max-w-md mx-auto min-h-screen relative shadow-2xl bg-gray-50/20">
+
+    <!-- 🌟 主視覺 Banner（內含 7 天天氣預報） -->
+    <div class="bg-[#3B7AAE]/95 text-white pt-7 pb-6 px-5 rounded-b-[40px] relative overflow-hidden shadow-lg backdrop-blur-sm">
+        <div class="absolute right-[-20px] top-[-20px] w-40 h-40 bg-white/10 rounded-full blur-xl"></div>
+        
+        <div class="flex items-center justify-between mb-2">
+            <span class="bg-white/20 text-[10px] px-2.5 py-0.5 rounded-full font-medium tracking-wider backdrop-blur-sm">NYC TRIP 2026</span>
+            <span class="text-[10px] bg-emerald-400 text-emerald-950 px-2 py-0.5 rounded-full font-bold shadow-sm"><i class="fa-solid fa-cloud-sun mr-1"></i>紐約即時氣象模式</span>
+        </div>
+        
+        <h1 class="text-2xl font-extrabold tracking-tight mb-1">紐約浪漫盛宴 & 城市探索</h1>
+        <p class="text-white/75 text-xs flex items-center gap-1.5 mb-4">
+            <i class="fa-regular fa-calendar-days"></i> 07/23 - 07/27 • 曼哈頓
+        </p>
+
+        <!-- 🌤️ 7日天氣預報橫向滾動條 -->
+        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/10">
+            <div class="text-[11px] font-bold text-white/90 mb-2 flex items-center justify-between px-1">
+                <span><i class="fa-solid fa-temperature-half mr-1"></i> 7-Day Weather Forecast</span>
+                <span class="text-white/60 font-normal">紐約夏季 7 月</span>
+            </div>
+            
+            <!-- 橫向滾動氣象卡 -->
+            <div class="flex gap-2 overflow-x-auto pb-1 scrollbar-none" style="-webkit-overflow-scrolling: touch;">
+                <!-- 7/23 -->
+                <div class="flex-shrink-0 w-[55px] bg-white/10 rounded-xl p-2 text-center">
+                    <div class="text-[9px] text-white/70 font-medium">7/23</div>
+                    <i class="fa-solid fa-sun text-amber-300 my-1.5 text-sm block"></i>
+                    <div class="text-[10px] font-bold">29°C</div>
+                    <div class="text-[8px] text-white/50">21°C</div>
+                </div>
+                <!-- 7/24 -->
+                <div class="flex-shrink-0 w-[55px] bg-white/10 rounded-xl p-2 text-center">
+                    <div class="text-[9px] text-white/70 font-medium">7/24</div>
+                    <i class="fa-solid fa-cloud-sun text-gray-200 my-1.5 text-sm block"></i>
+                    <div class="text-[10px] font-bold">28°C</div>
+                    <div class="text-[8px] text-white/50">22°C</div>
+                </div>
+                <!-- 7/25 -->
+                <div class="flex-shrink-0 w-[55px] bg-white/10 rounded-xl p-2 text-center">
+                    <div class="text-[9px] text-white/70 font-medium">7/25</div>
+                    <i class="fa-solid fa-cloud-sun-rain text-blue-200 my-1.5 text-sm block"></i>
+                    <div class="text-[10px] font-bold">26°C</div>
+                    <div class="text-[8px] text-blue-200/70">🌧️40%</div>
+                </div>
+                <!-- 7/26 -->
+                <div class="flex-shrink-0 w-[55px] bg-white/10 rounded-xl p-2 text-center">
+                    <div class="text-[9px] text-white/70 font-medium">7/26</div>
+                    <i class="fa-solid fa-sun text-amber-300 my-1.5 text-sm block"></i>
+                    <div class="text-[10px] font-bold">30°C</div>
+                    <div class="text-[8px] text-white/50">23°C</div>
+                </div>
+                <!-- 7/27 -->
+                <div class="flex-shrink-0 w-[55px] bg-white/10 rounded-xl p-2 text-center">
+                    <div class="text-[9px] text-white/70 font-medium">7/27</div>
+                    <i class="fa-solid fa-cloud text-gray-300 my-1.5 text-sm block"></i>
+                    <div class="text-[10px] font-bold">27°C</div>
+                    <div class="text-[8px] text-white/50">20°C</div>
+                </div>
+                <!-- 7/28 -->
+                <div class="flex-shrink-0 w-[55px] bg-white/10 rounded-xl p-2 text-center">
+                    <div class="text-[9px] text-white/70 font-medium">7/28</div>
+                    <i class="fa-solid fa-sun text-amber-300 my-1.5 text-sm block"></i>
+                    <div class="text-[10px] font-bold">31°C</div>
+                    <div class="text-[8px] text-white/50">24°C</div>
+                </div>
+                <!-- 7/29 -->
+                <div class="flex-shrink-0 w-[55px] bg-white/10 rounded-xl p-2 text-center">
+                    <div class="text-[9px] text-white/70 font-medium">7/29</div>
+                    <i class="fa-solid fa-smog text-gray-200 my-1.5 text-sm block"></i>
+                    <div class="text-[10px] font-bold">28°C</div>
+                    <div class="text-[8px] text-white/50">21°C</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 內容區 -->
+    <div class="px-4 mt-4 space-y-6 relative z-10">
+
+        <!-- 隨身動態匯率換算表 -->
+        <div class="korean-card p-4 shadow-md">
+            <div class="flex items-center justify-between border-b border-gray-100 pb-2 mb-3">
+                <div class="flex items-center gap-2 text-[#3B7AAE] font-bold text-sm">
+                    <i class="fa-solid fa-calculator text-base"></i>
+                    <span>美金 ➔ 台幣快速換算表</span>
+                </div>
+                <div class="flex items-center gap-1.5 text-xs text-gray-500 bg-gray-100/80 px-2 py-1 rounded-lg">
+                    <span>匯率:</span>
+                    <input type="number" id="currentRate" value="32.5" step="0.1" oninput="updateExchangeTable()" class="w-12 font-bold text-center bg-transparent text-[#3B7AAE] focus:outline-none border-b border-[#3B7AAE]">
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                <div class="bg-gray-50/80 p-2 rounded-xl border border-gray-100">
+                    <div class="font-bold text-gray-400">US $1</div>
+                    <div class="font-extrabold text-gray-700 mt-0.5" data-usd="1">NT$ 33</div>
+                </div>
+                <div class="bg-gray-50/80 p-2 rounded-xl border border-gray-100">
+                    <div class="font-bold text-gray-400">US $5</div>
+                    <div class="font-extrabold text-gray-700 mt-0.5" data-usd="5">NT$ 163</div>
+                </div>
+                <div class="bg-gray-50/80 p-2 rounded-xl border border-gray-100">
+                    <div class="font-bold text-gray-400">US $10</div>
+                    <div class="font-extrabold text-gray-700 mt-0.5" data-usd="10">NT$ 325</div>
+                </div>
+                <div class="bg-gray-50/80 p-2 rounded-xl border border-gray-100">
+                    <div class="font-bold text-gray-400">US $50</div>
+                    <div class="font-extrabold text-gray-700 mt-0.5" data-usd="50">NT$ 1,625</div>
+                </div>
+                <div class="bg-gray-50/80 p-2 rounded-xl border border-gray-100">
+                    <div class="font-bold text-gray-400">US $100</div>
+                    <div class="font-extrabold text-[#3B7AAE] mt-0.5" data-usd="100">NT$ 3,250</div>
+                </div>
+                <div class="bg-gray-50/80 p-2 rounded-xl border border-gray-100">
+                    <div class="font-bold text-gray-400">US $500</div>
+                    <div class="font-extrabold text-gray-700 mt-0.5" data-usd="500">NT$ 16,250</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 1 -->
+        <div id="day1" class="scroll-mt-6">
+            <div class="flex items-center gap-3 mb-3 px-2">
+                <span class="text-2xl font-black text-[#3B7AAE] drop-shadow-sm">07/23</span>
+                <span class="bg-[#3B7AAE] text-white text-xs font-bold px-2.5 py-1 rounded-lg shadow-sm">DAY 1 啟程紐約</span>
+            </div>
+            
+            <div class="korean-card p-5 space-y-4">
+                <div class="border-b border-gray-100 pb-3 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span id="title-d1-1" class="font-bold text-gray-800 text-base">台北 ➔ 紐約 JFK 專車接送</span>
+                        <button onclick="openEditModal('title-d1-1', 'desc-d1-1')" class="text-[#3B7AAE]/70 hover:text-[#3B7AAE] text-xs p-1"><i class="fa-solid fa-pen-to-square"></i></button>
+                    </div>
+                    <span class="bg-blue-50 text-xs text-blue-600 px-2 py-0.5 rounded font-medium">交通</span>
+                </div>
+
+                <div class="bg-gray-50/70 rounded-xl p-3.5 relative">
+                    <p id="desc-d1-1" class="text-xs text-gray-600 leading-relaxed">
+                        搭乘中華航空 CI 012（17:30/20:50）。抵達後接送機服務直達 Jersey City 的 AirBnB 旅館。
+                    </p>
+                </div>
+
+                <div class="bg-amber-50/80 rounded-xl p-4 border border-amber-100/70 text-xs space-y-1.5 text-amber-900">
+                    <div><span class="font-bold">💡 拍照小技巧：</span>抵達 Jersey City 後可到河畔拍攝璀璨的曼哈頓夜景。</div>
+                    <div><span class="font-bold">🚗 停車＆加油資訊：</span>紐澤西州加油較便宜，進紐約前建議加滿。</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 2 -->
+        <div id="day2" class="scroll-mt-6">
+            <div class="flex items-center gap-3 mb-3 px-2">
+                <span class="text-2xl font-black text-[#3B7AAE] drop-shadow-sm">07/24</span>
+                <span class="bg-[#3B7AAE] text-white text-xs font-bold px-2.5 py-1 rounded-lg shadow-sm">DAY 2 暢貨購物</span>
+            </div>
+            
+            <div class="korean-card p-5 space-y-4">
+                <div class="border-b border-gray-100 pb-3 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span id="title-d2-1" class="font-bold text-gray-800 text-base">Woodbury Outlet 血拼</span>
+                        <button onclick="openEditModal('title-d2-1', 'desc-d2-1')" class="text-[#3B7AAE]/70 hover:text-[#3B7AAE] text-xs p-1"><i class="fa-solid fa-pen-to-square"></i></button>
+                    </div>
+                    <span class="bg-purple-50 text-xs text-purple-600 px-2 py-0.5 rounded font-medium">購物</span>
+                </div>
+
+                <div class="space-y-4 relative pl-4 before:content-[''] before:absolute before:left-1.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-gray-200">
+                    <div class="relative">
+                        <div class="absolute -left-[14px] top-1.5 w-2 h-2 rounded-full bg-[#3B7AAE]"></div>
+                        <div class="text-sm font-bold text-gray-800 flex items-center gap-2">
+                            <span>名牌折扣村巡禮</span>
+                            <span class="text-[10px] bg-purple-50 text-purple-600 px-1.5 py-0.2 rounded">#必買</span>
+                        </div>
+                        <p id="desc-d2-1" class="text-xs text-gray-500 mt-1">美東最大名牌折扣村，全天自由血拼（餐食自理）。專車服務 12 小時。</p>
+                    </div>
+
+                    <div class="relative">
+                        <div class="absolute -left-[14px] top-1.5 w-2 h-2 rounded-full bg-orange-400"></div>
+                        <div class="text-sm font-bold text-gray-800 flex items-center gap-2">
+                            <span id="title-d2-2">Jongro BBQ 韓式烤肉</span>
+                            <button onclick="openEditModal('title-d2-2', 'desc-d2-2')" class="text-[#3B7AAE]/70 hover:text-[#3B7AAE] text-xs p-1"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <span class="text-[10px] bg-orange-50 text-orange-600 px-1.5 py-0.2 rounded">#必吃</span>
+                        </div>
+                        <p id="desc-d2-2" class="text-xs text-gray-500 mt-1">18:00 與 Caitlin's 家人吃晚餐。專車送到餐廳後即離開。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 3 -->
+        <div id="day3" class="scroll-mt-6">
+            <div class="flex items-center gap-3 mb-3 px-2">
+                <span class="text-2xl font-black text-[#3B7AAE] drop-shadow-sm">07/25</span>
+                <span class="bg-[#3B7AAE] text-white text-xs font-bold px-2.5 py-1 rounded-lg shadow-sm">DAY 3 浪漫婚禮</span>
+            </div>
+            
+            <div class="korean-card p-5 space-y-4">
+                <div class="border-b border-gray-100 pb-3 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span id="title-d3-1" class="font-bold text-gray-800 text-base">Michelle's 世紀婚禮</span>
+                        <button onclick="openEditModal('title-d3-1', 'desc-d3-1')" class="text-[#3B7AAE]/70 hover:text-[#3B7AAE] text-xs p-1"><i class="fa-solid fa-pen-to-square"></i></button>
+                    </div>
+                    <span class="bg-red-50 text-xs text-red-600 px-2 py-0.5 rounded font-medium">活動</span>
+                </div>
+
+                <div class="bg-red-50/60 border border-red-100 rounded-xl p-3.5 space-y-2">
+                    <div class="text-xs font-bold text-gray-700 flex justify-between">
+                        <span>會場：26 Bridge | BK Event Venues</span>
+                        <span class="text-red-500">#必拍</span>
+                    </div>
+                    <p id="desc-d3-1" class="text-xs text-gray-500">
+                        15:00 專車由旅館出發送達會場。16:30 婚禮正式開始，隨後享用精緻晚宴。回程需自行叫車。
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 4 -->
+        <div id="day4" class="scroll-mt-6">
+            <div class="flex items-center gap-3 mb-3 px-2">
+                <span class="text-2xl font-black text-[#3B7AAE] drop-shadow-sm">07/26</span>
+                <span class="bg-[#3B7AAE] text-white text-xs font-bold px-2.5 py-1 rounded-lg shadow-sm">DAY 4 曼哈頓巡禮</span>
+            </div>
+            
+            <div class="korean-card p-5 space-y-4">
+                <div class="border-b border-gray-100 pb-3 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span id="title-d4-1" class="font-bold text-gray-800 text-base">經典紐約 City Tour</span>
+                        <button onclick="openEditModal('title-d4-1', 'desc-d4-1')" class="text-[#3B7AAE]/70 hover:text-[#3B7AAE] text-xs p-1"><i class="fa-solid fa-pen-to-square"></i></button>
+                    </div>
+                    <span class="bg-teal-50 text-xs text-teal-600 px-2 py-0.5 rounded font-medium">景點</span>
+                </div>
+
+                <p id="desc-d4-1" class="text-xs text-gray-500">
+                    專車 12 小時。包含自由女神遊船（不上島退船票 $15）、華爾街金融中心、摸金牛、Little Island 漂浮公園、911 紀念公園、時代廣場與第五大道。
+                </p>
+
+                <div class="bg-orange-50/60 rounded-xl p-3 text-xs text-gray-700 space-y-1">
+                    <div>🍔 <span class="font-bold">午餐：</span>Olive Garden 義大料理 ($35/人)</div>
+                    <div>🥩 <span class="font-bold">晚餐：</span>西餐頂級牛排餐 ($50/人)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 5 -->
+        <div id="day5" class="scroll-mt-6">
+            <div class="flex items-center gap-3 mb-3 px-2">
+                <span class="text-2xl font-black text-[#3B7AAE] drop-shadow-sm">07/27</span>
+                <span class="bg-[#3B7AAE] text-white text-xs font-bold px-2.5 py-1 rounded-lg shadow-sm">DAY 5 網美與世界之巔</span>
+            </div>
+            
+            <div class="korean-card p-5 space-y-4">
+                <div class="border-b border-gray-100 pb-3 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span id="title-d5-1" class="font-bold text-gray-800 text-base">文藝街區與高空景觀</span>
+                        <button onclick="openEditModal('title-d5-1', 'desc-d5-1')" class="text-[#3B7AAE]/70 hover:text-[#3B7AAE] text-xs p-1"><i class="fa-solid fa-pen-to-square"></i></button>
+                    </div>
+                    <span class="bg-teal-50 text-xs text-teal-600 px-2 py-0.5 rounded font-medium">景點</span>
+                </div>
+
+                <p id="desc-d5-1" class="text-xs text-gray-500 leading-relaxed">
+                    走訪華盛頓廣場、紐約大學、格林威治村、慾望城市凱莉的家、熨斗大廈、高架鐵道公園、雀兒喜市場。傍晚登上 One World Observatory 世貿中心觀景台俯瞰夕陽。
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 底部浮動導覽條 -->
+    <div class="fixed bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-sm h-16 nav-blur rounded-2xl shadow-2xl border border-white/40 flex items-center justify-around px-2 z-40">
+        <a href="#day1" class="flex flex-col items-center gap-0.5 text-[#3B7AAE]">
+            <i class="fa-solid fa-1 text-xs bg-[#3B7AAE]/10 w-6 h-6 rounded-lg flex items-center justify-center"></i>
+            <span class="text-[10px] font-bold">23日</span>
+        </a>
+        <a href="#day2" class="flex flex-col items-center gap-0.5 text-gray-400 hover:text-[#3B7AAE]">
+            <i class="fa-solid fa-2 text-xs w-6 h-6 rounded-lg flex items-center justify-center"></i>
+            <span class="text-[10px] font-medium">24日</span>
+        </a>
+        <a href="#day3" class="flex flex-col items-center gap-0.5 text-gray-400 hover:text-[#3B7AAE]">
+            <i class="fa-solid fa-3 text-xs w-6 h-6 rounded-lg flex items-center justify-center"></i>
+            <span class="text-[10px] font-medium">25日</span>
+        </a>
+        <a href="#day4" class="flex flex-col items-center gap-0.5 text-gray-400 hover:text-[#3B7AAE]">
+            <i class="fa-solid fa-4 text-xs w-6 h-6 rounded-lg flex items-center justify-center"></i>
+            <span class="text-[10px] font-medium">26日</span>
+        </a>
+        <a href="#day5" class="flex flex-col items-center gap-0.5 text-gray-400 hover:text-[#3B7AAE]">
+            <i class="fa-solid fa-5 text-xs w-6 h-6 rounded-lg flex items-center justify-center"></i>
+            <span class="text-[10px] font-medium">27日</span>
+        </a>
+    </div>
+
+    <!-- 彈出式動態編輯視窗 (Modal) -->
+    <div id="editModal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none modal-animate">
+        <div class="bg-white/95 backdrop-blur-md w-full max-w-xs rounded-[28px] p-6 shadow-2xl space-y-4 transform scale-90 modal-animate">
+            <div class="flex justify-between items-center border-b border-gray-100 pb-2">
+                <h3 class="text-base font-bold text-gray-800"><i class="fa-solid fa-pen text-[#3B7AAE] mr-1"></i> 修改行程資訊</h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div class="space-y-3 text-xs">
+                <div>
+                    <label class="block text-gray-400 font-medium mb-1">景點/行程名稱</label>
+                    <input type="text" id="modalInputTitle" class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-[#3B7AAE] font-semibold text-gray-700">
+                </div>
+                <div>
+                    <label class="block text-gray-400 font-medium mb-1">細項說明</label>
+                    <textarea id="modalInputDesc" rows="4" class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-[#3B7AAE] text-gray-600 leading-relaxed"></textarea>
+                </div>
+            </div>
+
+            <div class="flex gap-2 pt-2 text-xs font-bold">
+                <button onclick="closeModal()" class="flex-1 py-3 bg-gray-100 text-gray-500 rounded-xl active:scale-95 transition-all">取消</button>
+                <button onclick="saveChanges()" class="flex-1 py-3 bg-[#3B7AAE] text-white rounded-xl active:scale-95 transition-all shadow-md shadow-[#3B7AAE]/20">儲存更新</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 系統功能 JS 邏輯 -->
+    <script>
+        let activeTitleId = '';
+        let activeDescId = '';
+
+        function updateExchangeTable() {
+            const rateInput = document.getElementById('currentRate');
+            let rate = parseFloat(rateInput.value);
+            if (isNaN(rate) || rate <= 0) rate = 32.5;
+
+            const targets = document.querySelectorAll('[data-usd]');
+            targets.forEach(el => {
+                const usdAmount = parseInt(el.getAttribute('data-usd'));
+                const twdAmount = Math.round(usdAmount * rate);
+                el.innerText = 'NT$ ' + twdAmount.toLocaleString();
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            updateExchangeTable();
+        });
+
+        function openEditModal(titleId, descId) {
+            activeTitleId = titleId;
+            activeDescId = descId;
+
+            const currentTitle = document.getElementById(titleId).innerText;
+            const currentDesc = document.getElementById(descId).innerText;
+
+            document.getElementById('modalInputTitle').value = currentTitle;
+            document.getElementById('modalInputDesc').value = currentDesc;
+
+            const modal = document.getElementById('editModal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.querySelector('div').classList.remove('scale-90');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('editModal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.querySelector('div').classList.add('scale-90');
+        }
+
+        function saveChanges() {
+            const newTitle = document.getElementById('modalInputTitle').value;
+            const newDesc = document.getElementById('modalInputDesc').value;
+
+            if(activeTitleId) document.getElementById(activeTitleId).innerText = newTitle;
+            if(activeDescId) document.getElementById(activeDescId).innerText = newDesc;
+
+            closeModal();
+        }
+
+        const navLinks = document.querySelectorAll('div.fixed a');
+        const days = document.querySelectorAll('div[id^="day"]');
+        window.addEventListener('scroll', () => {
+            let current = 'day1';
+            days.forEach(day => {
+                if (window.pageYOffset >= day.offsetTop - 120) {
+                    current = day.getAttribute('id');
+                }
+            });
+            navLinks.forEach(link => {
+                link.classList.remove('text-[#3B7AAE]');
+                link.classList.add('text-gray-400');
+                const icon = link.querySelector('i');
+                icon.classList.remove('bg-[#3B7AAE]/10');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('text-[#3B7AAE]');
+                    link.classList.remove('text-gray-400');
+                    icon.classList.add('bg-[#3B7AAE]/10');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
